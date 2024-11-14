@@ -1,0 +1,58 @@
+stages:
+  - check_files_last_commit
+  - pbip_linter_last_commit
+  - check_files_all
+  - pbip_lint_all
+
+default:
+  image: localhost:5000/gitlab-ci:0.1
+
+# Step 1: Run Pre-commit on Latest Commit Changes (Currrent dev only)
+check_files_last_commit:
+  stage: check_files_last_commit
+  script:
+    # Install and run pre-commit hooks on latest commit changes or merge request diff
+    - export DIFF_TARGET=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:-HEAD~1}
+    - pre-commit install
+    - pre-commit run --from-ref "$DIFF_TARGET" --to-ref HEAD --show-diff-on-failure
+
+# Step 2: Run Linter on Latest Commit Changes (Feature Branches Only)
+pbip_linter_last_commit:
+  stage: pbip_linter_last_commit
+  script:
+    # Determine the file diff for .tmdl and report.json files using DIFF_TARGET
+    - export DIFF_TARGET=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:-HEAD~1}
+    - |
+      combined_results=($(
+        (git diff --name-only "$DIFF_TARGET"...HEAD | grep '.tmdl$' | awk -F'/definition' '{print $1}' &&
+         git diff --name-only "$DIFF_TARGET"...HEAD | grep 'report.json' | awk -F'/report.json' '{print $1}') |
+        sort -u
+      ))
+      # Run linter on the combined results if there are any
+      if [ "${#combined_results[@]}" -ne 0 ]; then
+        python /pbip_linter/linter.py "${combined_results[@]}"
+      else
+        echo "No relevant files changed for linter"
+      fi
+
+# Run Pre-commit on All Files (Merge Requests, Main & Preprod only)
+check_files_all:
+  stage: check_files_all
+  script:
+    - pre-commit run --all-files --show-diff-on-failure
+  allow_failure: true
+  only:
+    - main
+    - preprod
+    - merge_requests
+
+# Run Linter on All Files (Merge Requests, Main & Preprod)
+pbip_lint_all:
+  stage: pbip_lint_all
+  script:
+    - python /pbip_linter/linter.py
+  allow_failure: true
+  only:
+    - main
+    - preprod
+    - merge_requests
