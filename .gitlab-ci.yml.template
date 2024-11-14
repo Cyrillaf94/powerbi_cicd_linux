@@ -5,7 +5,7 @@ stages:
   - pbip_lint_all
 
 default:
-  image: localhost:5000/gitlab-ci:0.1
+  image: SPECIFY_YOUR_IMAGE_HERE
 
 # Step 1: Run Pre-commit on Latest Commit Changes (Currrent dev only)
 check_files_last_commit:
