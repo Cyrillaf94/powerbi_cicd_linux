@@ -1,0 +1,9 @@
+include:
+  - project: data/common/shared/ci-template
+    ref: main
+    file:
+      - stages/build-artifact-image.yml
+      - common/stages.yml
+
+variables:
+  GOOGLE_CREDENTIALS_DEV: $DOCKER_ARTIFACT_REGISTRY_WRITE_SA
