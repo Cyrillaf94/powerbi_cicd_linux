@@ -1,6 +1,6 @@
 include:
   - project: data/common/shared/ci-template
-    ref: bg/fix/check-repo-name
+    ref: bz/fix_docker_build
     file:
       - stages/build-artifact-image.yml
       - common/stages.yml
