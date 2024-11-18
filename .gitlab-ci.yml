@@ -7,4 +7,4 @@ include:
 
 variables:
   GOOGLE_CREDENTIALS_DEV: $DOCKER_ARTIFACT_REGISTRY_WRITE_SA
-  DOCKER_ARTIFACT_REPOSITORY_NAME: europe-docker.pkg.dev/common-registry-prd/mheu-datacommon-prd-ardck01
+  DOCKER_ARTIFACT_REPOSITORY_NAME: mheu-datacommon-prd-ardck01
