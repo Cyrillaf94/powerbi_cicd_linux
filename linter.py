@@ -81,7 +81,7 @@ def model_linter(model_root: Path) -> dict:
     args = ['dotnet', 'run', '--configuration', 'Release', '--project', linter_path,
             str(item_path)]
     result = subprocess.run(args,
-                            capture_output=True, text=True, check=False, timeout=30)
+                            capture_output=True, text=True, check=False, timeout=120)
     results_dict = handle_te_output(result)
     return results_dict
 
@@ -152,7 +152,7 @@ def visuals_linter(report_root: Path, rules: Path) -> None:
                 "-rules", str(rules), 
                 "-formats", "JSON"]
     
-    result = subprocess.run(command, capture_output=True, text=True, check=True, timeout=30)
+    result = subprocess.run(command, capture_output=True, text=True, check=True, timeout=120)
     if 'Error: Could not deserialise rules file with path' in result.stdout:
         raise ValueError(f"Invalid rules file format: '{rules}'")
     logging.debug(result)
@@ -267,4 +267,3 @@ if __name__ == '__main__':
         sys.exit(0)
     else:
         sys.exit(1)
-'dotnet run --configuration Release --project /pbip_linter/TMDLLint CIF_MIGRATION.SemanticModel/definition'
