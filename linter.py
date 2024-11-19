@@ -240,23 +240,21 @@ def run_linter(path: Path = Path('.'),
 
 def main():
     """You can specify a Path arg to check for a specific folder"""
-    logging.info("------- Starting Linter ---------")
-    if len(sys.argv) > 1:
-        paths = sys.argv[1:]
-    else:
-        paths = ['.']
-    for path in paths:
-        path = Path(path)
-        if not path.exists():
-            log_error(f"Path {path} does not exist.")
-            continue
-        with tempfile.TemporaryDirectory() as temp_dir:
-            tempfile.tempdir = temp_dir
+    with tempfile.TemporaryDirectory() as temp_dir:
+        tempfile.tempdir = temp_dir
+        if len(sys.argv) > 1:
+            paths = sys.argv[1:]
+        else:
+            paths = ['.']
+        for path in paths:
+            path = Path(path)
+            if not path.exists():
+                log_error(f"Path {path} does not exist.")
+                continue
             try:
                 run_linter(path)
             except Exception as e:
                 log_exception(e)
-    logging.info("------- Ending Linter ---------")
 
 
 # endregion ####
