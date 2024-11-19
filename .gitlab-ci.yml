@@ -1,6 +1,6 @@
 include:
   - project: data/common/shared/ci-template
-    ref: main
+    ref: latest
     file:
       - stages/build-artifact-image.yml
       - common/stages.yml
