@@ -20,7 +20,6 @@ RUN dotnet build PBI-Inspector/PBIXInspectorCLI --configuration Release
 
 COPY linter.py linter.py
 COPY pbi_inspector_rules.json pbi_inspector_rules.json
-COPY .pre-commit-config.yaml .pre-commit-config.yaml
 
 # Install python dependencies
 RUN pip install pre-commit setuptools

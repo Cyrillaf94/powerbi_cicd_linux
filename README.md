@@ -5,5 +5,3 @@ Welcome to `powerbi-cicd`, a repository designed to support continuous integrati
 ## Usage
 
 The repository contains a `linter.py` script that can be used to analyze PowerBI reports and models. The script uses TabularEditor and PBI Inspector for linting and logs a score based on the results.
-
-The `.gitlab-ci.yml.template` file defines the stages of the CI/CD pipeline. It includes steps to run pre-commit hooks on the latest commit changes or all files, and to run the linter on files that have changed or all files. The pipeline can be customized to fit the needs of your project.

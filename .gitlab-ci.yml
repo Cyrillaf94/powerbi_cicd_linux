@@ -1,6 +1,6 @@
 include:
   - project: data/common/shared/ci-template
-    ref: bz/fix_docker_build
+    ref: main
     file:
       - stages/build-artifact-image.yml
       - common/stages.yml
